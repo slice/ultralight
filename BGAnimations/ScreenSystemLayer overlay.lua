@@ -1,6 +1,4 @@
 local function DateAndTime()
-	local c;
-	local realMonth = (MonthOfYear()+1);
 	local clockFrame = Def.ActorFrame{
 		LoadFont("","mentone/_24px")..{
 			Name="Date";
@@ -12,11 +10,17 @@ local function DateAndTime()
 		};
 	};
 	local function UpdateDateTime(self)
-		self:GetChild('Date'):settext( string.format("%04i/%02i/%02i",Year(),realMonth,DayOfMonth()) );
-		self:GetChild('Time'):settext( string.format("%02i:%02i:%02i", Hour(), Minute(), Second()) );
+		local date = string.format('%02i/%02i/%04i', MonthOfYear() + 1, DayOfMonth(), Year());
+		self:GetChild('Date'):settext(date)
+		local meridiem = 'am'
+		if Hour() > 11 then
+			meridiem = 'pm'
+		end
+		local time = string.format('%02i:%02i:%02i %s', Hour() % 12, Minute(), Second(), meridiem)
+		self:GetChild('Time'):settext(time)
 	end;
-	clockFrame.InitCommand=cmd(SetUpdateFunction,UpdateDateTime);
-	return clockFrame;
+	clockFrame.InitCommand=cmd(SetUpdateFunction, UpdateDateTime)
+	return clockFrame
 end;
 
 return Def.ActorFrame {
