@@ -16,7 +16,11 @@ local function DateAndTime()
 		if Hour() > 11 then
 			meridiem = 'pm'
 		end
-		local time = string.format('%02i:%02i:%02i %s', Hour() % 12, Minute(), Second(), meridiem)
+		local hour = Hour() % 12
+		if hour == 0 then
+			hour = 12
+		end
+		local time = string.format('%02i:%02i:%02i %s', hour, Minute(), Second(), meridiem)
 		self:GetChild('Time'):settext(time)
 	end;
 	clockFrame.InitCommand=cmd(SetUpdateFunction, UpdateDateTime)
