@@ -1,6 +1,6 @@
 local ScreenName = Var "LoadingScreen";
 
-local stages = Def.ActorFrame {
+return Def.ActorFrame {
 	LoadFont("Common normal") .. {
 		InitCommand=cmd(shadowlength,1;zoom,0.5;NoStroke;visible,true);
 		BeginCommand=cmd(playcommand,"Set";);
@@ -17,12 +17,7 @@ local stages = Def.ActorFrame {
 				if ScreenName == "ScreenGameplay" then
 					curStageIndex = curStageIndex + 1
 				end
-				-- I guess this should be behind either the Easter Eggs toggle or --dopefish.
-				if curStageIndex == 6 then
-					self:settext("I am not a number,\nI am a free man.")
-				else
-					self:settextf("#%i",curStageIndex)
-				end
+				self:settextf("#%i",curStageIndex)
 			else
 				local screen = SCREENMAN:GetTopScreen();
 				if screen and screen.GetStageStats then
@@ -34,7 +29,5 @@ local stages = Def.ActorFrame {
 				self:diffuse( StageToColor(s) );
 			end
 		end;
-	};
-};
-
-return stages;
+	}
+}
